@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Flash Cards</string>
+    <string name="term">Term</string>
+    <string name="definition">Definition</string>
+    <string name="add_term">Add Term</string>
+    <string name="quiz">Quiz</string>
+    <string name="create">Create</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="rename">Rename</string>
+    <string name="create_flashcard_set">Create Flashcard Set</string>
+    <string name="rename_flashcard_set">Rename Flashcard Set</string>
+
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="action_add">Add</string>
+    <string name="enter_flashcard_set_name">Enter flashcard set name</string>
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="permanently_delete">All Flashcards in this set will be permanently deleted.</string>
+    <string name="deleteWarningMessage">All Flashcards in %1$s will be permanently deleted.</string>
+</resources>
