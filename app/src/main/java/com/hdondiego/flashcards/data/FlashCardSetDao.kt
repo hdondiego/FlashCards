@@ -18,8 +18,13 @@ interface FlashCardSetDao {
     @Query("DELETE FROM FlashCardSet")
     suspend fun deleteAllSets()
 
+    // DO NOT DELETE
     @Query("SELECT * FROM FlashCardSet WHERE set_id=:setId")
-    suspend fun getSpecificSet(setId: Int): FlashCardSet
+    suspend fun getSet(setId: Int): FlashCardSet
+
+    // not needed
+    /*@Query("SELECT * FROM FlashCardSet WHERE set_id=:setId")
+    suspend fun getSet(setId: Int): LiveData<FlashCardSet>*/
 
     @Query("SELECT * FROM FlashCardSet")
     fun getAllSets(): LiveData<List<FlashCardSet>>
@@ -41,6 +46,4 @@ interface FlashCardSetDao {
 
     @Query("SELECT * FROM FlashCardSet ORDER BY date_modified ASC")
     fun getDateModifiedAsc(): LiveData<List<FlashCardSet>>*/
-
-    //@Query("DELETE FROM flashcardcollections WHERE id=")
 }

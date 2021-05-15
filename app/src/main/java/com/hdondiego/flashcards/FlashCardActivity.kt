@@ -1,6 +1,5 @@
 package com.hdondiego.flashcards
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -8,16 +7,20 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.hdondiego.flashcards.adapters.FlashCardListAdapter
 import com.hdondiego.flashcards.data.FlashCard
+import com.hdondiego.flashcards.data.FlashCardRepository
 import com.hdondiego.flashcards.data.FlashCardSetRepository
 import com.hdondiego.flashcards.data.FlashCardsRoomDatabase
 import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModel
 import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModelFactory
 import com.hdondiego.flashcards.viewmodels.FlashCardViewModel
+import com.hdondiego.flashcards.viewmodels.FlashCardViewModelFactory
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 class FlashCardActivity : AppCompatActivity() {
     /*
@@ -50,7 +53,7 @@ class FlashCardActivity : AppCompatActivity() {
     private lateinit var recyclerView: RecyclerView
     private lateinit var flashCardListAdapter: FlashCardListAdapter
     //private lateinit var layoutManager: RecyclerView.LayoutManager
-    private lateinit var flashCardSetViewModel: FlashCardSetViewModel
+    private lateinit var flashCardViewModel: FlashCardViewModel
     //private var layoutState: Parcelable? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -105,18 +108,24 @@ class FlashCardActivity : AppCompatActivity() {
         //context = applicationContext
 
         // fix setCardId to 'it'
-        val flashCardSetDao = FlashCardsRoomDatabase.getInstance(this).flashCardSetDao()
-        val repository = FlashCardSetRepository(flashCardSetDao)
-        val factory = FlashCardSetViewModelFactory(repository)
-        flashCardSetViewModel = ViewModelProvider(this, factory).get(FlashCardSetViewModel::class.java)
+        val flashCardDao = FlashCardsRoomDatabase.getInstance(this).flashCardDao()
+        val repository = FlashCardRepository(flashCardDao)
+        val factory = FlashCardViewModelFactory(repository)
+        flashCardViewModel = ViewModelProvider(this, factory).get(FlashCardViewModel::class.java)
         // ViewModelProvider.AndroidViewModelFactory(this.application)
         //flashCardViewModel.setCardSetId(setId)
         /*flashCardViewModel.allFlashCardsInSet.observe(this, Observer { flashCards ->
             flashCards?.let { flashCardListAdapter.setFlashCards(it) }
         })*/
-        flashCardSetViewModel.getSpecificSet(setId).observe(this, Observer { flashCards ->
-            flashCards?.let { flashCardListAdapter.setFlashCards(flashCards) }
+
+        flashCardViewModel.getCardsInSet(setId)
+        flashCardViewModel.flashCards.observe(this, Observer { cards ->
+            cards?.let { flashCardListAdapter.setFlashCards(it) }
+
+            
         })
+        var cardPosition: Int = flashCardListAdapter.itemCount
+
 
         btnAddTerm = findViewById(R.id.btnAddTerm)
         btnQuiz = findViewById(R.id.btnQuiz)
@@ -127,9 +136,19 @@ class FlashCardActivity : AppCompatActivity() {
             val flashCard = FlashCard(0, "", "", true, setId)
             /*Log.d("Term Added", flashCard.toString())
             Log.d("Def Added", definitions.toString())*/
+            Log.d(TAG, "num_flashcards (before): ${flashCardViewModel.flashCards.value?.size}")
+            Log.d(TAG, "num_flashcards (before): ${flashCardListAdapter.itemCount}")
             flashCardViewModel.insertNewCard(flashCard)
             //val allCards = flashCardViewModel.allFlashCards
-            //flashCardListAdapter.notifyItemInserted(terms.size - 1)
+            Log.d(TAG, "num_flashcards (after): ${flashCardViewModel.flashCards.value?.size}")
+            Log.d(TAG, "num_flashcards (after): ${flashCardListAdapter.itemCount}")
+            //cardPosition++
+
+            //flashCardViewModel.getCardsInSet(setId)
+            //flashCardListAdapter.setFlashCards(flashCardViewModel.flashCards.value!!)
+
+            //flashCardListAdapter.notifyItemInserted(cardPosition)
+            flashCardListAdapter.notifyDataSetChanged()
         }
 
         /*btnQuiz.setOnClickListener{

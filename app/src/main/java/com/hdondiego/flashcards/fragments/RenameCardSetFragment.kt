@@ -8,15 +8,9 @@ import android.os.Bundle
 import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.EditText
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
 import com.hdondiego.flashcards.R
 import com.hdondiego.flashcards.data.FlashCardSet
 import com.hdondiego.flashcards.data.FlashCardSetDao
@@ -25,7 +19,6 @@ import com.hdondiego.flashcards.data.FlashCardsRoomDatabase
 import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModel
 import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModelFactory
 import kotlinx.coroutines.*
-import java.util.*
 
 class RenameCardSetFragment(val setID: Int) : DialogFragment() { //val setId: Int
     private lateinit var flashCardSetViewModel: FlashCardSetViewModel
@@ -128,7 +121,7 @@ class RenameCardSetFragment(val setID: Int) : DialogFragment() { //val setId: In
         val scope = CoroutineScope(Dispatchers.IO)
         scope.launch {
             Log.d(TAG, "setID: ${setID}")
-            set = flashCardSetViewModel.getSpecificSet(setID)
+            set = flashCardSetViewModel.getSet(setID)
             //set.postValue(flashCardSetViewModel.getSpecificSet(setID))
             //Log.d(TAG, "collectionName: ${set.value!!.collectionName}")
             Log.d(TAG, "collectionName: ${set.collectionName}")

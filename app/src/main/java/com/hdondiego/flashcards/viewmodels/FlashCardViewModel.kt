@@ -1,28 +1,40 @@
 package com.hdondiego.flashcards.viewmodels
 
-import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hdondiego.flashcards.FlashCardActivity
 import com.hdondiego.flashcards.data.FlashCard
 import com.hdondiego.flashcards.data.FlashCardRepository
-import com.hdondiego.flashcards.data.FlashCardSetRepository
-import com.hdondiego.flashcards.data.FlashCardsRoomDatabase
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class FlashCardViewModel(private val flashCardRepository: FlashCardRepository) : ViewModel() {
     //var flashCards = flashCardRepository.allFlashCards
-    var flashCards: LiveData<List<FlashCard>>? = null
+    var flashCards: MutableLiveData<List<FlashCard>> = MutableLiveData<List<FlashCard>>() // originally LiveData<List<FlashCard>>
 
-    fun getAllCardsInSet(setId: Int) = viewModelScope.launch(Dispatchers.IO) {
-        flashCards = flashCardRepository.getAllCardsInSet(setId)
+    // DO NOT REMOVE
+    /*fun getCardsInSet(setId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        flashCards = flashCardRepository.getCardsInSet(setId)
+    }*/
+
+    // DO NOT REMOVE
+    fun getCardsInSet(setId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        flashCards.postValue(flashCardRepository.getCardsInSet(setId))
+        //flashCards.value = flashCardRepository.getCardsInSet(setId) // cannot invoke setValue on a background thread
     }
+
+    /*fun getCardsInSet(setId: Int) = viewModelScope.launch (Dispatchers.IO) {
+        withContext(Dispatchers.IO) {
+            flashCardRepository.getCardsInSet(setId)
+        }
+    }*/
 
     fun insertNewCard(flashCard: FlashCard) = viewModelScope.launch(Dispatchers.IO) {
         flashCardRepository.insertNewCard(flashCard)
+        flashCards.postValue(flashCardRepository.getCardsInSet(flashCard.setId))
     }
 
     fun updateCard(flashCard: FlashCard) = viewModelScope.launch(Dispatchers.IO) {

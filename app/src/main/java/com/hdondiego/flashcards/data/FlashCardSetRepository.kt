@@ -1,10 +1,6 @@
 package com.hdondiego.flashcards.data
 
 import androidx.lifecycle.LiveData
-import com.hdondiego.flashcards.data.FlashCard
-import com.hdondiego.flashcards.data.FlashCardDao
-import com.hdondiego.flashcards.data.FlashCardSet
-import com.hdondiego.flashcards.data.FlashCardSetDao
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -28,8 +24,8 @@ class FlashCardSetRepository(private val flashCardSetDao: FlashCardSetDao) {
         return flashCardSetDao.getSpecificSet(setId)
     }
     */
-    suspend fun getSpecificSet(setId: Int): FlashCardSet = withContext(Dispatchers.IO){
-        flashCardSetDao.getSpecificSet(setId)
+    suspend fun getSet(setId: Int): FlashCardSet = withContext(Dispatchers.IO){
+        flashCardSetDao.getSet(setId)
     }
 }
 
