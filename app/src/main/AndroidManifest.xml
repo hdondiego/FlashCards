@@ -19,7 +19,8 @@
         <activity android:name=".QuizActivity" />
         <activity
             android:name=".FlashCardActivity"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustResize"
+            android:parentActivityName=".MainActivity">
         </activity>
     </application>
 

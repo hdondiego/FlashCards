@@ -6,13 +6,20 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.EditText
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.hdondiego.flashcards.ItemTouchHelperAdapter
 import com.hdondiego.flashcards.R
 import com.hdondiego.flashcards.TextChangedWatcher
 import com.hdondiego.flashcards.data.FlashCard
+import com.hdondiego.flashcards.data.FlashCardDao
+import com.hdondiego.flashcards.data.FlashCardRepository
+import com.hdondiego.flashcards.data.FlashCardsRoomDatabase
+import com.hdondiego.flashcards.viewmodels.FlashCardViewModel
+import com.hdondiego.flashcards.viewmodels.FlashCardViewModelFactory
 
 class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<String>, private var definitions: ArrayList<String>
     RecyclerView.Adapter<FlashCardListAdapter.DynamicViewHolder>(){//,
@@ -20,19 +27,23 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
 
     //private val inflater = LayoutInflater.from(context)
     private var flashCards = emptyList<FlashCard>()
-    //private lateinit var mListener: OnItemUpdatedListener
+    private lateinit var mListener: OnItemUpdatedListener
     val TAG : String? = FlashCardListAdapter::class.simpleName
-
+    //val dao: FlashCardDao = FlashCardsRoomDatabase.getInstance(context).flashCardDao()
+    //val repository: FlashCardRepository = FlashCardRepository(dao)
+    //val factory: FlashCardViewModelFactory = FlashCardViewModelFactory(repository)
+    //val flashCardViewModel: FlashCardViewModel = ViewModelProvider(this, factory).get(FlashCardViewModel::class.java)
+    //val flashCardViewModel: FlashCardViewModel = ViewModelProvider(this, factory).get(FlashCardViewModel::class.java)
     //lateinit var mTouchHelper: ItemTouchHelper // fix the item touch helper
 
-    /*interface OnItemUpdatedListener {
+    interface OnItemUpdatedListener {
         fun onItemUpdated(flashCard: FlashCard, position: Int)
     }
 
     fun setOnItemUpdatedListener(listener: OnItemUpdatedListener){
         // TextWatcher
         mListener = listener
-    }*/
+    }
 
     inner class DynamicViewHolder : RecyclerView.ViewHolder{//, TextWatcher{//,
         //View.OnTouchListener,
@@ -40,6 +51,8 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
 
         var termEditText: EditText
         var defEditText: EditText
+        //var termEditTextListener: FlashCardEditTextListener = FlashCardEditTextListener(adapterPosition, true)
+        //var defEditTextListener: FlashCardEditTextListener = FlashCardEditTextListener(adapterPosition, false)
         //var running: Boolean = false
         //private var mGestureDetector: GestureDetector
 
@@ -48,6 +61,8 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
             termEditText = view.findViewById(R.id.termEditText)
             defEditText = view.findViewById(R.id.defEditText)
 
+            //termEditText.addTextChangedListener(termEditTextListener)
+            //defEditText.addTextChangedListener(defEditTextListener)
             /*termEditText.setOnFocusChangeListener { view, hasFocus ->
                 if (!hasFocus){
                     Log.d(TAG, "This (${adapterPosition}) term edittext no longer has focus")
@@ -65,7 +80,7 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
 
             /*termEditText.addTextChangedListener(object: TextWatcher{
                 override fun afterTextChanged(p0: Editable?) {
-                    Log.d(TAG, "The term edittext recently changed")
+                    *//*Log.d(TAG, "The term edittext recently changed")
                     if (!running){
                         running = true
                         val term = p0.toString()
@@ -78,7 +93,21 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
                             mListener.onItemUpdated(flashCard)
                         }
                         running = false
+                    }*//*
+
+                    //Log.d(TAG, "The term edittext recently changed")
+                    val term = p0.toString()
+                    Log.d(TAG, "term text: $term")
+
+                    val position: Int = adapterPosition
+                    val flashCard = FlashCard(position, term, flashCards[position].def, true, flashCards[position].setId)
+
+                    if ((mListener != null) && (position != RecyclerView.NO_POSITION)){
+                        mListener.onItemUpdated(flashCard, position)
                     }
+
+                    Log.d(TAG, "Term Edit Text pos: ${position} afterTextChanged called - ${flashCard.term}")
+
                 }
 
                 override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -257,6 +286,35 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
                 }*//*
                 val editText = v as EditText
             }
+        }
+    }*/
+
+
+    /*inner class FlashCardEditTextListener(val position: Int, val isTerm: Boolean = false): TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            TODO("Not yet implemented")
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            TODO("Not yet implemented")
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            val editTextString = s.toString()
+            Log.d(TAG, "term text: $editTextString")
+
+            if (isTerm){
+                val flashCard = FlashCard(flashCards[position].cardId, editTextString, flashCards[position].def, true, flashCards[position].setId)
+                Log.d(TAG, "Term: ${editTextString}\t")
+            } else {
+                val flashCard = FlashCard(flashCards[position].cardId, flashCards[position].term, editTextString, true, flashCards[position].setId)
+            }
+
+            *//*if ((mListener != null) && (position != RecyclerView.NO_POSITION)){
+                mListener.onItemUpdated(flashCard, position)
+            }*//*
+
+            Log.d(TAG, "Term Edit Text pos: ${position} afterTextChanged called - ${flashCard.term}")
         }
     }*/
 }

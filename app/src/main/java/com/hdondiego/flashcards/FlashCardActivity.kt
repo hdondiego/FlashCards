@@ -1,14 +1,18 @@
 package com.hdondiego.flashcards
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.widget.Toolbar
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.hdondiego.flashcards.MainActivity.Companion.TERM_DEF_REQUEST
 import com.hdondiego.flashcards.adapters.FlashCardListAdapter
 import com.hdondiego.flashcards.data.FlashCard
 import com.hdondiego.flashcards.data.FlashCardRepository
@@ -55,6 +59,7 @@ class FlashCardActivity : AppCompatActivity() {
     //private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var flashCardViewModel: FlashCardViewModel
     //private var layoutState: Parcelable? = null
+    //val onItemUpdatedListener: FlashCardListAdapter.OnItemUpdatedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,8 +71,12 @@ class FlashCardActivity : AppCompatActivity() {
         val setName = intent.getStringExtra(EXTRA_SETNAME)
         Toast.makeText(this, "setName: $setName\nsetId: $setId", Toast.LENGTH_LONG).show()
 
-        setSupportActionBar(findViewById(R.id.toolBar))
+        val toolBar: Toolbar = findViewById(R.id.toolBar)
+        setSupportActionBar(toolBar) //findViewById(R.id.toolBar)
         title = setName
+
+        val actionBar: ActionBar? = supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
 
         btnAddTerm = findViewById(R.id.btnAddTerm)
         btnQuiz = findViewById(R.id.btnQuiz)
@@ -121,11 +130,16 @@ class FlashCardActivity : AppCompatActivity() {
         flashCardViewModel.getCardsInSet(setId)
         flashCardViewModel.flashCards.observe(this, Observer { cards ->
             cards?.let { flashCardListAdapter.setFlashCards(it) }
-
-            
         })
         var cardPosition: Int = flashCardListAdapter.itemCount
 
+        flashCardListAdapter.setOnItemUpdatedListener(object: FlashCardListAdapter.OnItemUpdatedListener {
+            override fun onItemUpdated(flashCard: FlashCard, position: Int) {
+                Log.d(TAG, "flashCard term: ${flashCard.term}")
+                flashCardViewModel.updateCard(flashCard)
+            }
+
+        })
 
         btnAddTerm = findViewById(R.id.btnAddTerm)
         btnQuiz = findViewById(R.id.btnQuiz)
@@ -153,9 +167,9 @@ class FlashCardActivity : AppCompatActivity() {
 
         /*btnQuiz.setOnClickListener{
             val intent = Intent(this, QuizActivity::class.java)
-            Log.d("Terms Send", terms.toString())
-            Log.d("Def Send", definitions.toString())
-            intent.putExtra("terms_key", terms)
+            //Log.d("Terms Send", terms.toString())
+            //Log.d("Def Send", definitions.toString())
+            intent.putExtra("terms_key", flashcards)
             intent.putExtra("def_key", definitions)
             startActivityForResult(intent, TERM_DEF_REQUEST)
         }*/
