@@ -6,6 +6,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
 import androidx.lifecycle.ViewModelProvider
@@ -49,8 +50,10 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
         //View.OnTouchListener,
         //GestureDetector.OnGestureListener {
 
-        var termEditText: EditText
-        var defEditText: EditText
+        //var termEditText: EditText
+        //var defEditText: EditText
+        var termTextView: TextView
+        var defTextView: TextView
         //var termEditTextListener: FlashCardEditTextListener = FlashCardEditTextListener(adapterPosition, true)
         //var defEditTextListener: FlashCardEditTextListener = FlashCardEditTextListener(adapterPosition, false)
         //var running: Boolean = false
@@ -58,8 +61,10 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
 
         //constructor(view: View, mListener: OnItemUpdatedListener) : super(view){
         constructor(view: View) : super(view) {
-            termEditText = view.findViewById(R.id.termEditText)
-            defEditText = view.findViewById(R.id.defEditText)
+            //termEditText = view.findViewById(R.id.termEditText)
+            //defEditText = view.findViewById(R.id.defEditText)
+            termTextView = view.findViewById(R.id.termTextView)
+            defTextView = view.findViewById(R.id.defTextView)
 
             //termEditText.addTextChangedListener(termEditTextListener)
             //defEditText.addTextChangedListener(defEditTextListener)
@@ -220,14 +225,16 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DynamicViewHolder {
-        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.dynamic_item_row, parent, false)
+        val view: View = LayoutInflater.from(parent.context).inflate(R.layout.flashcard_item_row, parent, false) // R.layout.dynamic_item_row
         //return DynamicViewHolder(view, mListener)
         return DynamicViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: DynamicViewHolder, position: Int) {
-        holder.termEditText.text = Editable.Factory.getInstance().newEditable(flashCards[position].term)
-        holder.defEditText.text = Editable.Factory.getInstance().newEditable(flashCards[position].def)
+        //holder.termEditText.text = Editable.Factory.getInstance().newEditable(flashCards[position].term)
+        //holder.defEditText.text = Editable.Factory.getInstance().newEditable(flashCards[position].def)
+        holder.termTextView.text = flashCards[position].term
+        holder.defTextView.text = flashCards[position].def
     }
 
     override fun getItemCount(): Int {
