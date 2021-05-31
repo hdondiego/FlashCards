@@ -4,7 +4,11 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.Button
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import android.widget.Toast
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.widget.Toolbar
@@ -12,12 +16,14 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.hdondiego.flashcards.MainActivity.Companion.TERM_DEF_REQUEST
 import com.hdondiego.flashcards.adapters.FlashCardListAdapter
 import com.hdondiego.flashcards.data.FlashCard
 import com.hdondiego.flashcards.data.FlashCardRepository
 import com.hdondiego.flashcards.data.FlashCardSetRepository
 import com.hdondiego.flashcards.data.FlashCardsRoomDatabase
+import com.hdondiego.flashcards.fragments.BottomSheetFragment
 import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModel
 import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModelFactory
 import com.hdondiego.flashcards.viewmodels.FlashCardViewModel
@@ -60,6 +66,7 @@ class FlashCardActivity : AppCompatActivity() {
     private lateinit var flashCardViewModel: FlashCardViewModel
     //private var layoutState: Parcelable? = null
     //val onItemUpdatedListener: FlashCardListAdapter.OnItemUpdatedListener
+    //val onItemSelected: FlashCardListAdapter.OnItemSelectedListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -78,8 +85,8 @@ class FlashCardActivity : AppCompatActivity() {
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
-        btnAddTerm = findViewById(R.id.btnAddTerm)
-        btnQuiz = findViewById(R.id.btnQuiz)
+        //btnAddTerm = findViewById(R.id.btnAddTerm)
+        //btnQuiz = findViewById(R.id.btnQuiz)
 
         //layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
@@ -141,15 +148,45 @@ class FlashCardActivity : AppCompatActivity() {
 
         })
 
-        btnAddTerm = findViewById(R.id.btnAddTerm)
-        btnQuiz = findViewById(R.id.btnQuiz)
+        flashCardListAdapter.setOnItemSelectedListener(object: FlashCardListAdapter.OnItemSelectedListener {
+            override fun onItemSelected(flashCard: FlashCard, position: Int) {
+                Log.d(TAG, "flashCard pos ${position} selected")
+                val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(application)
+                //val bottomSheetView: View = LayoutInflater.from(application).inflate(R.layout.bottom_sheet_layout, findViewById<RelativeLayout>(R.id.botLinearLayout))
 
-        btnAddTerm.setOnClickListener {
+                val bottomSheetFragment: BottomSheetFragment = BottomSheetFragment()
+                bottomSheetFragment.show(supportFragmentManager, "BottomSheetDialogFragment")
+
+                /*bottomSheetView.findViewById<Button>(R.id.btnCancel).setOnClickListener {
+                    bottomSheetDialog.cancel()
+                }
+
+                bottomSheetDialog.setContentView(bottomSheetView)
+                bottomSheetDialog.show()*/
+            }
+        })
+
+
+        // TextInputLayout Test - Leave here for now
+        /*flashCardListAdapter.setOnItemSelectedListener(object: FlashCardListAdapter.OnItemSelectedListener{
+            override fun onItemSelected(flashCard: FlashCard, position: Int) {
+                val intent = Intent(this@FlashCardActivity, TextInputLayout::class.java)
+                //Log.d(TAG, "setID: ${flashCardSet.setId}")
+                //intent.putExtra(FlashCardActivity.EXTRA_SETID, flashCardSet.setId)
+                //intent.putExtra(FlashCardActivity.EXTRA_SETNAME, flashCardSet.collectionName)
+                startActivity(intent)
+            }
+        })*/
+
+        //btnAddTerm = findViewById(R.id.btnAddTerm)
+        //btnQuiz = findViewById(R.id.btnQuiz)
+
+        /*btnAddTerm.setOnClickListener {
             //terms.add("")
             //definitions.add("")
             val flashCard = FlashCard(0, "", "", true, setId)
-            /*Log.d("Term Added", flashCard.toString())
-            Log.d("Def Added", definitions.toString())*/
+            *//*Log.d("Term Added", flashCard.toString())
+            Log.d("Def Added", definitions.toString())*//*
             Log.d(TAG, "num_flashcards (before): ${flashCardViewModel.flashCards.value?.size}")
             Log.d(TAG, "num_flashcards (before): ${flashCardListAdapter.itemCount}")
             flashCardViewModel.insertNewCard(flashCard)
@@ -163,7 +200,7 @@ class FlashCardActivity : AppCompatActivity() {
 
             //flashCardListAdapter.notifyItemInserted(cardPosition)
             flashCardListAdapter.notifyDataSetChanged()
-        }
+        }*/
 
         /*btnQuiz.setOnClickListener{
             val intent = Intent(this, QuizActivity::class.java)

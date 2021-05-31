@@ -12,6 +12,13 @@
         android:id="@+id/toolBar"
         layout="@layout/toolbar" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toolBar"
+        tools:listitem="@layout/flashcard_item_row"/>
+    <!--
     <LinearLayout
         android:id="@+id/term_def_id"
         android:layout_width="match_parent"
@@ -71,4 +78,5 @@
             android:text="@string/quiz"/>
 
     </LinearLayout>
+    -->
 </RelativeLayout>

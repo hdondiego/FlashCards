@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout android:id="@+id/botLinearLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="10dp"
+    android:background="@drawable/bottom_sheet_background"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- You don't need to add IDs to the TextInputEditTexts
+    because you can get a reference to them through the TextInputLayouts-->
+    <TextView
+        android:id="@+id/createTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:text="@string/create_flashcard"
+        android:textAppearance="@android:style/TextAppearance.Material.Headline"
+        android:textSize="22sp" />
+
+
+
+    <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+    <!--android:backgroundTint="#0000000"-->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputTerm"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/createTextView"
+        android:layout_marginBottom="10dp"
+        app:errorEnabled="true"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/term" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/textInputDef"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/textInputTerm"
+    android:layout_marginBottom="10dp"
+    app:errorEnabled="true"
+    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/definition" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignParentEnd="true"
+    android:layout_below="@id/textInputDef">
+
+        <Button
+            android:id="@+id/btnCancel"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/outline_close_white_24"
+            android:drawableTint="@color/colorCancel"
+            android:text="@string/cancel"
+            android:textColor="@color/colorCancel" />
+
+        <Button
+            android:id="@+id/btnSave"
+            style="?android:attr/borderlessButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/outline_done_white_24"
+            android:drawableTint="@color/colorSave"
+            android:text="@string/save"
+            android:textColor="@color/colorSave" />
+    </LinearLayout>
+</RelativeLayout>

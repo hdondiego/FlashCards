@@ -126,7 +126,7 @@ class DeleteCardSetFragment(val setID: Int) : DialogFragment(){ //val setId: Int
         var strDeleteMessage: String = ""
 
         // viewmodel works, but you don't see the created set right after clicking Create
-        val dao = FlashCardsRoomDatabase.getInstance(activity!!.applicationContext).flashCardSetDao()
+        val dao = FlashCardsRoomDatabase.getInstance(requireActivity().applicationContext).flashCardSetDao()
         val repository = FlashCardSetRepository(dao)
         val factory = FlashCardSetViewModelFactory(repository)
         val flashCardSetViewModel = ViewModelProvider(this, factory).get(FlashCardSetViewModel::class.java)

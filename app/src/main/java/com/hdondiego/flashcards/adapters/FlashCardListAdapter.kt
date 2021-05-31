@@ -1,26 +1,13 @@
 package com.hdondiego.flashcards.adapters
 
 import android.content.Context
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.*
-import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
-import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
-import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
-import com.hdondiego.flashcards.ItemTouchHelperAdapter
 import com.hdondiego.flashcards.R
-import com.hdondiego.flashcards.TextChangedWatcher
 import com.hdondiego.flashcards.data.FlashCard
-import com.hdondiego.flashcards.data.FlashCardDao
-import com.hdondiego.flashcards.data.FlashCardRepository
-import com.hdondiego.flashcards.data.FlashCardsRoomDatabase
-import com.hdondiego.flashcards.viewmodels.FlashCardViewModel
-import com.hdondiego.flashcards.viewmodels.FlashCardViewModelFactory
 
 class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<String>, private var definitions: ArrayList<String>
     RecyclerView.Adapter<FlashCardListAdapter.DynamicViewHolder>(){//,
@@ -28,7 +15,8 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
 
     //private val inflater = LayoutInflater.from(context)
     private var flashCards = emptyList<FlashCard>()
-    private lateinit var mListener: OnItemUpdatedListener
+    private lateinit var mUpdatedListener: OnItemUpdatedListener
+    private lateinit var mSelectedListener: OnItemSelectedListener
     val TAG : String? = FlashCardListAdapter::class.simpleName
     //val dao: FlashCardDao = FlashCardsRoomDatabase.getInstance(context).flashCardDao()
     //val repository: FlashCardRepository = FlashCardRepository(dao)
@@ -43,7 +31,15 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
 
     fun setOnItemUpdatedListener(listener: OnItemUpdatedListener){
         // TextWatcher
-        mListener = listener
+        mUpdatedListener = listener
+    }
+
+    interface OnItemSelectedListener {
+        fun onItemSelected(flashCard: FlashCard, position: Int)
+    }
+
+    fun setOnItemSelectedListener(listener: OnItemSelectedListener){
+        mSelectedListener = listener
     }
 
     inner class DynamicViewHolder : RecyclerView.ViewHolder{//, TextWatcher{//,
@@ -52,6 +48,7 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
 
         //var termEditText: EditText
         //var defEditText: EditText
+        var cardView: CardView
         var termTextView: TextView
         var defTextView: TextView
         //var termEditTextListener: FlashCardEditTextListener = FlashCardEditTextListener(adapterPosition, true)
@@ -63,8 +60,20 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
         constructor(view: View) : super(view) {
             //termEditText = view.findViewById(R.id.termEditText)
             //defEditText = view.findViewById(R.id.defEditText)
+            cardView = view.findViewById(R.id.cardView)
             termTextView = view.findViewById(R.id.termTextView)
             defTextView = view.findViewById(R.id.defTextView)
+
+            /*cardView.setOnTouchListener { v, event ->
+                val flashCard: FlashCard = FlashCard(flashCards[adapterPosition].cardId, flashCards[adapterPosition].term, flashCards[adapterPosition].def, true, flashCards[adapterPosition].setId)
+                mSelectedListener.onItemSelected(flashCard, adapterPosition)
+                true // Android will supply data with true
+            }*/
+
+            cardView.setOnClickListener {
+                val flashCard: FlashCard = FlashCard(flashCards[adapterPosition].cardId, flashCards[adapterPosition].term, flashCards[adapterPosition].def, true, flashCards[adapterPosition].setId)
+                mSelectedListener.onItemSelected(flashCard, adapterPosition)
+            }
 
             //termEditText.addTextChangedListener(termEditTextListener)
             //defEditText.addTextChangedListener(defEditTextListener)
@@ -323,5 +332,11 @@ class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<S
 
             Log.d(TAG, "Term Edit Text pos: ${position} afterTextChanged called - ${flashCard.term}")
         }
+    }*/
+    /*inner class FlashCardTouchListener(): View.OnTouchListener{
+        override fun onTouch(v: View?, event: MotionEvent?): Boolean {
+            TODO("Not yet implemented")
+        }
+
     }*/
 }

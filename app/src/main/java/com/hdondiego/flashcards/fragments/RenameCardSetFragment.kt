@@ -78,7 +78,7 @@ class RenameCardSetFragment(val setID: Int) : DialogFragment() { //val setId: In
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         //return super.onCreateDialog(savedInstanceState)
-        flashCardSetDao = FlashCardsRoomDatabase.getInstance(activity!!.applicationContext).flashCardSetDao()
+        flashCardSetDao = FlashCardsRoomDatabase.getInstance(requireActivity().applicationContext).flashCardSetDao()
         repository = FlashCardSetRepository(flashCardSetDao)
         factory = FlashCardSetViewModelFactory(repository)
         flashCardSetViewModel = ViewModelProvider(this, factory).get(FlashCardSetViewModel::class.java)

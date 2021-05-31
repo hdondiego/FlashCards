@@ -1,5 +1,6 @@
 package com.hdondiego.flashcards
 
+import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.viewpager2.widget.ViewPager2

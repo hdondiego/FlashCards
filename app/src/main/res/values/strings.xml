@@ -8,8 +8,10 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="rename">Rename</string>
+    <string name="save">Save</string>
     <string name="create_flashcard_set">Create Flashcard Set</string>
     <string name="rename_flashcard_set">Rename Flashcard Set</string>
+    <string name="create_flashcard">Create a Flashcard</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
