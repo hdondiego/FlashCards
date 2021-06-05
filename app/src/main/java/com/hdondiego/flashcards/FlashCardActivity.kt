@@ -3,6 +3,7 @@ package com.hdondiego.flashcards
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,9 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.textfield.TextInputLayout
 import com.hdondiego.flashcards.MainActivity.Companion.TERM_DEF_REQUEST
 import com.hdondiego.flashcards.adapters.FlashCardListAdapter
 import com.hdondiego.flashcards.data.FlashCard
@@ -28,8 +31,10 @@ import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModel
 import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModelFactory
 import com.hdondiego.flashcards.viewmodels.FlashCardViewModel
 import com.hdondiego.flashcards.viewmodels.FlashCardViewModelFactory
+import kotlinx.android.synthetic.main.activity_flashcard.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 class FlashCardActivity : AppCompatActivity() {
@@ -64,9 +69,15 @@ class FlashCardActivity : AppCompatActivity() {
     private lateinit var flashCardListAdapter: FlashCardListAdapter
     //private lateinit var layoutManager: RecyclerView.LayoutManager
     private lateinit var flashCardViewModel: FlashCardViewModel
+    private var flashCardPos: Int = -1
     //private var layoutState: Parcelable? = null
     //val onItemUpdatedListener: FlashCardListAdapter.OnItemUpdatedListener
     //val onItemSelected: FlashCardListAdapter.OnItemSelectedListener
+    private lateinit var termTextInput: TextInputLayout
+    private lateinit var defTextInput: TextInputLayout
+
+    private lateinit var btnCancel: Button
+    private lateinit var btnSave: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -85,6 +96,10 @@ class FlashCardActivity : AppCompatActivity() {
         val actionBar: ActionBar? = supportActionBar
         actionBar?.setDisplayHomeAsUpEnabled(true)
 
+        var mBottomSheetBehavior = BottomSheetBehavior.from(persBottomSheet).apply {
+            peekHeight = 100
+            this.state = BottomSheetBehavior.STATE_COLLAPSED // will make it visible, but only at the peek height
+        }
         //btnAddTerm = findViewById(R.id.btnAddTerm)
         //btnQuiz = findViewById(R.id.btnQuiz)
 
@@ -99,6 +114,9 @@ class FlashCardActivity : AppCompatActivity() {
             terms = ArrayList()
             definitions = ArrayList()
         }*/
+
+        termTextInput = findViewById(R.id.termTextInput)
+        defTextInput = findViewById(R.id.defTextInput)
 
         // need this
         recyclerView = findViewById(R.id.recyclerView)
@@ -138,7 +156,35 @@ class FlashCardActivity : AppCompatActivity() {
         flashCardViewModel.flashCards.observe(this, Observer { cards ->
             cards?.let { flashCardListAdapter.setFlashCards(it) }
         })
-        var cardPosition: Int = flashCardListAdapter.itemCount
+        //var cardPosition: Int = flashCardListAdapter.itemCount
+
+        btnCancel = findViewById(R.id.btnCancel)
+        btnCancel.setOnClickListener {
+            mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            termTextInput.editText!!.text = Editable.Factory.getInstance().newEditable("")
+            defTextInput.editText!!.text = Editable.Factory.getInstance().newEditable("")
+            flashCardPos = -1
+        }
+
+        btnSave = findViewById(R.id.btnSave)
+        btnSave.setOnClickListener {
+            mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            val tempTerm: String = termTextInput.editText!!.text.toString()
+            val tempDef: String = defTextInput.editText!!.text.toString()
+            Log.d(TAG, "btnSave flashCardPos: ${flashCardPos}")
+            if (flashCardPos < 0){
+                Log.d(TAG, "Adding a new FlashCard")
+                val tempFlashCard: FlashCard = FlashCard(0, tempTerm, tempDef, true, setId)
+                flashCardViewModel.insertNewCard(tempFlashCard)
+            } else {
+                Log.d(TAG, "Updating current FlashCard")
+                val tempFlashCard: FlashCard = FlashCard(flashCardViewModel.flashCards.value!![flashCardPos].cardId, tempTerm, tempDef, true, setId)
+                flashCardViewModel.updateCard(tempFlashCard)
+                flashCardListAdapter.notifyDataSetChanged()
+            }
+            termTextInput.editText!!.text = Editable.Factory.getInstance().newEditable("")
+            defTextInput.editText!!.text = Editable.Factory.getInstance().newEditable("")
+        }
 
         flashCardListAdapter.setOnItemUpdatedListener(object: FlashCardListAdapter.OnItemUpdatedListener {
             override fun onItemUpdated(flashCard: FlashCard, position: Int) {
@@ -154,8 +200,8 @@ class FlashCardActivity : AppCompatActivity() {
                 val bottomSheetDialog: BottomSheetDialog = BottomSheetDialog(application)
                 //val bottomSheetView: View = LayoutInflater.from(application).inflate(R.layout.bottom_sheet_layout, findViewById<RelativeLayout>(R.id.botLinearLayout))
 
-                val bottomSheetFragment: BottomSheetFragment = BottomSheetFragment()
-                bottomSheetFragment.show(supportFragmentManager, "BottomSheetDialogFragment")
+                //val bottomSheetFragment: BottomSheetFragment = BottomSheetFragment()
+                //bottomSheetFragment.show(supportFragmentManager, "BottomSheetDialogFragment")
 
                 /*bottomSheetView.findViewById<Button>(R.id.btnCancel).setOnClickListener {
                     bottomSheetDialog.cancel()
@@ -163,6 +209,23 @@ class FlashCardActivity : AppCompatActivity() {
 
                 bottomSheetDialog.setContentView(bottomSheetView)
                 bottomSheetDialog.show()*/
+
+                if (mBottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED){
+                    val flashCard = flashCardViewModel.flashCards.value!!.get(position)
+                    termTextInput.editText!!.text = Editable.Factory.getInstance().newEditable(flashCard.term)
+                    defTextInput.editText!!.text = Editable.Factory.getInstance().newEditable(flashCard.def)
+                    mBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                } else if (mBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED){
+                    mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+                    CoroutineScope(Dispatchers.Main).launch {
+                        delay(450)
+                        val flashCard = flashCardViewModel.flashCards.value!!.get(position)
+                        termTextInput.editText!!.text = Editable.Factory.getInstance().newEditable(flashCard.term)
+                        defTextInput.editText!!.text = Editable.Factory.getInstance().newEditable(flashCard.def)
+                        mBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+                    }
+                }
+                flashCardPos = position
             }
         })
 

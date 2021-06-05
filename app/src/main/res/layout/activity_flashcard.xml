@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     tools:context=".FlashCardActivity">
 
@@ -16,8 +15,110 @@
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/toolBar"
-        tools:listitem="@layout/flashcard_item_row"/>
+        tools:listitem="@layout/flashcard_item_row"
+        android:paddingTop="?attr/actionBarSize"
+        android:layout_marginBottom="35dp"/>
+
+    <FrameLayout
+        android:id="@+id/persBottomSheet"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
+        android:background="@drawable/pers_bottom_sheet_background"
+        android:clickable="true"
+        android:focusable="true">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_remove_24"
+            android:scaleType="centerCrop"
+            android:contentDescription="@string/close_bottom_sheet"
+            android:layout_gravity="center|top"/>
+
+        <RelativeLayout android:id="@+id/botLinearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp"
+            >
+
+            <!-- You don't need to add IDs to the TextInputEditTexts
+            because you can get a reference to them through the TextInputLayouts-->
+            <TextView
+                android:id="@+id/createTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:text="@string/create_flashcard"
+                android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                android:textSize="22sp" />
+
+
+
+            <!--style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+            <!--android:backgroundTint="#0000000"-->
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/termTextInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/createTextView"
+                android:layout_marginBottom="10dp"
+                app:errorEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/term" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/defTextInput"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/termTextInput"
+                android:layout_marginBottom="10dp"
+                app:errorEnabled="true"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/definition" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_below="@id/defTextInput">
+
+                <Button
+                    android:id="@+id/btnCancel"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/outline_close_white_24"
+                    android:drawableTint="@color/colorCancel"
+                    android:text="@string/cancel"
+                    android:textColor="@color/colorCancel" />
+
+                <Button
+                    android:id="@+id/btnSave"
+                    style="?android:attr/borderlessButtonStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableStart="@drawable/outline_done_white_24"
+                    android:drawableTint="@color/colorSave"
+                    android:text="@string/save"
+                    android:textColor="@color/colorSave" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </FrameLayout>
+
     <!--
     <LinearLayout
         android:id="@+id/term_def_id"
@@ -79,4 +180,4 @@
 
     </LinearLayout>
     -->
-</RelativeLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

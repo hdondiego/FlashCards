@@ -21,4 +21,6 @@
     <string name="are_you_sure">Are you sure?</string>
     <string name="permanently_delete">All Flashcards in this set will be permanently deleted.</string>
     <string name="deleteWarningMessage">All Flashcards in %1$s will be permanently deleted.</string>
+    <string name="add_flashcard">Add Flashcard</string>
+    <string name="close_bottom_sheet">Close Bottom Sheet</string>
 </resources>

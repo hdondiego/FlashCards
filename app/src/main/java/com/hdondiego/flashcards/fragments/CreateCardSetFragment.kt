@@ -8,7 +8,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -77,6 +80,9 @@ class CreateCardSetFragment : DialogFragment() {
         val dialogView = LayoutInflater.from(activity).inflate(R.layout.alertdialog_edittext,null)
         editText = dialogView.findViewById(R.id.editText)
 
+
+
+        //editText.requestFocus()
 //        val scope = CoroutineScope(Dispatchers.IO)
 //        scope.launch {  }
 
@@ -99,7 +105,19 @@ class CreateCardSetFragment : DialogFragment() {
                     dialog.dismiss()
                 })
 
-        return builder.create()
+        //val inpMethodManager = requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        //inpMethodManager.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
+        val dialog = builder.create()
+
+        editText.requestFocus()
+        dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+        //val imm: InputMethodManager = getSystemService(context.INPUT_METHOD_SERVICE) as InputMethodManager
+        /*editText.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus){
+                dialog.window!!.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+            }
+        }*/
+        return dialog
     }
 
         /*return activity?.let {

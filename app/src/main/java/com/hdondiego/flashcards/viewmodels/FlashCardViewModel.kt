@@ -39,10 +39,12 @@ class FlashCardViewModel(private val flashCardRepository: FlashCardRepository) :
 
     fun updateCard(flashCard: FlashCard) = viewModelScope.launch(Dispatchers.IO) {
         flashCardRepository.updateCard(flashCard)
+        flashCards.postValue(flashCardRepository.getCardsInSet(flashCard.setId))
     }
 
     fun deleteCard(flashCard: FlashCard) = viewModelScope.launch(Dispatchers.IO) {
         flashCardRepository.deleteCard(flashCard)
+        flashCards.postValue(flashCardRepository.getCardsInSet(flashCard.setId))
     }
 
     /*fun deleteSet(setId: Int) = viewModelScope.launch(Dispatchers.IO) {
