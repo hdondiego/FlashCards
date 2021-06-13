@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/toolBar"
-        layout="@layout/toolbar" />
+        layout="@layout/activity_main_toolbar" />
 
     <LinearLayout
         android:id="@+id/term_def_id"

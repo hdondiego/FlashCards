@@ -10,7 +10,7 @@
 
     <include
         android:id="@+id/toolBar"
-        layout="@layout/toolbar" />
+        layout="@layout/activity_main_toolbar" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
@@ -26,6 +26,7 @@
         android:layout_alignParentEnd="true"
         android:src="@drawable/baseline_add_white_24dp"
         android:contentDescription="@string/create_flashcard_set"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        />
 
 </RelativeLayout>

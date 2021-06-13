@@ -7,16 +7,18 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.hdondiego.flashcards.QuizItem
 import com.hdondiego.flashcards.R
+import com.hdondiego.flashcards.data.FlashCard
 
-class CardAdapter(private var quizItems: ArrayList<QuizItem>): RecyclerView.Adapter<CardAdapter.CardViewHolder>(){
-
+class CardAdapter(): RecyclerView.Adapter<CardAdapter.CardViewHolder>(){ // private var quizItems: ArrayList<QuizItem>
+    private var flashCards = emptyList<FlashCard>()
     private lateinit var context: Context
     private lateinit var parent: ViewGroup
 
-    class CardViewHolder(view: View) : RecyclerView.ViewHolder(view){
+    inner class CardViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val frameLayout: FrameLayout = view.findViewById(R.id.frameLayout)
         val frontCard: FrameLayout = view.findViewById(R.id.frontCard)
         val backCard: FrameLayout = view.findViewById(R.id.backCard)
@@ -39,11 +41,11 @@ class CardAdapter(private var quizItems: ArrayList<QuizItem>): RecyclerView.Adap
 
     override fun onBindViewHolder(holder: CardViewHolder, position: Int) {
         //val testSet: AnimatorSet = AnimatorInflater.loadAnimator(context, R.animator.card_flip_left_in) as AnimatorSet
-        holder.termTextView.text = quizItems[position].term
-        holder.defTextView.text = quizItems[position].def
+        holder.termTextView.text = flashCards[position].term // holder.termTextView.text = quizItems[position].term
+        holder.defTextView.text = flashCards[position].def // holder.defTextView.text = quizItems[position].def
 
         holder.frameLayout.setOnClickListener {
-            if (quizItems[position].front) {
+            if (flashCards[position].front) { // quizItems[position].front
                 val termFlip: ObjectAnimator = ObjectAnimator.ofFloat(holder.frontCard, "rotationY", 0f, 180f) // 0 90 0f 180f linearLayout frontCardView
                 termFlip.duration = 1000
                 //termFlip.interpolator = AccelerateDecelerateInterpolator()
@@ -74,7 +76,7 @@ class CardAdapter(private var quizItems: ArrayList<QuizItem>): RecyclerView.Adap
                 val animSet3: AnimatorSet = AnimatorSet()
                 animSet3.playTogether(animSet1, animSet2)
 
-                quizItems[position].front = false
+                flashCards[position].front = false // quizItems[position].front = false
                 notifyItemChanged(position)
                 animSet3.start()
             } else {
@@ -106,14 +108,19 @@ class CardAdapter(private var quizItems: ArrayList<QuizItem>): RecyclerView.Adap
                 val animSet3: AnimatorSet = AnimatorSet()
                 animSet3.playTogether(animSet1, animSet2)
 
-                quizItems[position].front = true
+                flashCards[position].front = true // quizItems[position].front = true
                 notifyItemChanged(position)
                 animSet3.start()
             }
         }
     }
 
+    fun setFlashCards(flashCards: List<FlashCard>) {
+        this.flashCards = flashCards
+        notifyDataSetChanged()
+    }
+
     override fun getItemCount(): Int {
-        return quizItems.size
+        return flashCards.size // quizItems.size
     }
 }
