@@ -7,24 +7,11 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.WindowManager
-import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.DialogFragment
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.ViewModelStoreOwner
 import com.hdondiego.flashcards.R
-import com.hdondiego.flashcards.data.FlashCardSet
-import com.hdondiego.flashcards.data.FlashCardSetRepository
-import com.hdondiego.flashcards.data.FlashCardsRoomDatabase
-import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModel
-import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModelFactory
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import com.hdondiego.flashcards.models.FlashCardSet
 
 class CreateCardSetFragment : DialogFragment() {
     /*val createListener: CreateListener

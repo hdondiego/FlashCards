@@ -64,4 +64,8 @@ dependencies {
     //implementation 'com.google.android.material:material:1.1.0-alpha07'
 
     //implementation 'com.google.android.material:material:1.0.0'
+
+    // kotlinx-datetime
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.2.1")
+
 }

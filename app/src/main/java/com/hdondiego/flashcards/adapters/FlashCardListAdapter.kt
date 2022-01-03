@@ -2,12 +2,11 @@ package com.hdondiego.flashcards.adapters
 
 import android.content.Context
 import android.view.*
-import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.hdondiego.flashcards.R
-import com.hdondiego.flashcards.data.FlashCard
+import com.hdondiego.flashcards.models.FlashCard
 
 class FlashCardListAdapter(context: Context) : // private var terms: ArrayList<String>, private var definitions: ArrayList<String>
     RecyclerView.Adapter<FlashCardListAdapter.DynamicViewHolder>(){//,

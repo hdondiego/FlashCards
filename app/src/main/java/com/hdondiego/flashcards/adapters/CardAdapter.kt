@@ -2,21 +2,22 @@ package com.hdondiego.flashcards.adapters
 
 import android.animation.*
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.TextView
-import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.hdondiego.flashcards.QuizItem
 import com.hdondiego.flashcards.R
-import com.hdondiego.flashcards.data.FlashCard
+import com.hdondiego.flashcards.models.FlashCard
 
 class CardAdapter(): RecyclerView.Adapter<CardAdapter.CardViewHolder>(){ // private var quizItems: ArrayList<QuizItem>
+    val TAG : String? = CardAdapter::class.simpleName
     private var flashCards = emptyList<FlashCard>()
     private lateinit var context: Context
     private lateinit var parent: ViewGroup
+    private lateinit var mListener: OnFlashCardUpdatedListener
 
     inner class CardViewHolder(view: View) : RecyclerView.ViewHolder(view){
         val frameLayout: FrameLayout = view.findViewById(R.id.frameLayout)
@@ -25,6 +26,14 @@ class CardAdapter(): RecyclerView.Adapter<CardAdapter.CardViewHolder>(){ // priv
 
         val termTextView: TextView = view.findViewById(R.id.frontCardDetail)
         val defTextView: TextView = view.findViewById(R.id.backCardDetail)
+    }
+
+    interface OnFlashCardUpdatedListener {
+        fun onItemUpdated(flashCard: FlashCard, position: Int)
+    }
+
+    fun setFlashCardUpdatedListener(mListener: OnFlashCardUpdatedListener){
+        this.mListener = mListener
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CardViewHolder {//CardViewHolder {
@@ -45,6 +54,7 @@ class CardAdapter(): RecyclerView.Adapter<CardAdapter.CardViewHolder>(){ // priv
         holder.defTextView.text = flashCards[position].def // holder.defTextView.text = quizItems[position].def
 
         holder.frameLayout.setOnClickListener {
+            Log.d(TAG, "Card Flip triggered on position ${position}")
             if (flashCards[position].front) { // quizItems[position].front
                 val termFlip: ObjectAnimator = ObjectAnimator.ofFloat(holder.frontCard, "rotationY", 0f, 180f) // 0 90 0f 180f linearLayout frontCardView
                 termFlip.duration = 1000
@@ -77,7 +87,8 @@ class CardAdapter(): RecyclerView.Adapter<CardAdapter.CardViewHolder>(){ // priv
                 animSet3.playTogether(animSet1, animSet2)
 
                 flashCards[position].front = false // quizItems[position].front = false
-                notifyItemChanged(position)
+                //mListener.onItemUpdated(flashCards[position], position)
+                //notifyItemChanged(position)
                 animSet3.start()
             } else {
                 val defFlip: ObjectAnimator = ObjectAnimator.ofFloat(holder.backCard, "rotationY", 0f, -180f) // linearLayout backCardView
@@ -109,9 +120,13 @@ class CardAdapter(): RecyclerView.Adapter<CardAdapter.CardViewHolder>(){ // priv
                 animSet3.playTogether(animSet1, animSet2)
 
                 flashCards[position].front = true // quizItems[position].front = true
-                notifyItemChanged(position)
+                //mListener.onItemUpdated(flashCards[position], position)
+                //notifyItemChanged(position)
                 animSet3.start()
             }
+            Log.d(TAG,
+                "flashCards: \n${flashCards.forEachIndexed { index, flashCard -> Log.d(TAG, "pos ${index}: ${flashCard.front}") } }"
+            )
         }
     }
 

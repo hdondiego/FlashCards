@@ -1,18 +1,18 @@
 package com.hdondiego.flashcards.viewmodels
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.hdondiego.flashcards.data.FlashCard
+import com.hdondiego.flashcards.models.FlashCard
 import com.hdondiego.flashcards.data.FlashCardRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class FlashCardViewModel(private val flashCardRepository: FlashCardRepository) : ViewModel() {
-    //var flashCards = flashCardRepository.allFlashCards
+    //var flashCards = emptyList<FlashCard>()//flashCardRepository.getCardsInSet()
+    //var flashCards: LiveData<List<FlashCard>>? = null
+
+    //  DO NOT DELETE
     var flashCards: MutableLiveData<List<FlashCard>> = MutableLiveData<List<FlashCard>>() // originally LiveData<List<FlashCard>>
 
     // DO NOT REMOVE
@@ -22,7 +22,10 @@ class FlashCardViewModel(private val flashCardRepository: FlashCardRepository) :
 
     // DO NOT REMOVE
     fun getCardsInSet(setId: Int) = viewModelScope.launch(Dispatchers.IO) {
+        // DO NOT DELETE
         flashCards.postValue(flashCardRepository.getCardsInSet(setId))
+
+        //flashCards = flashCardRepository.getCardsInSet(setId)
         //flashCards.value = flashCardRepository.getCardsInSet(setId) // cannot invoke setValue on a background thread
     }
 
@@ -34,17 +37,18 @@ class FlashCardViewModel(private val flashCardRepository: FlashCardRepository) :
 
     fun insertNewCard(flashCard: FlashCard) = viewModelScope.launch(Dispatchers.IO) {
         flashCardRepository.insertNewCard(flashCard)
-        flashCards.postValue(flashCardRepository.getCardsInSet(flashCard.setId))
+        flashCards.postValue(flashCardRepository.getCardsInSet(flashCard.setId)) // for MutableLiveData - DO NOT DELETE
     }
 
     fun updateCard(flashCard: FlashCard) = viewModelScope.launch(Dispatchers.IO) {
         flashCardRepository.updateCard(flashCard)
-        flashCards.postValue(flashCardRepository.getCardsInSet(flashCard.setId))
+        flashCards.postValue(flashCardRepository.getCardsInSet(flashCard.setId)) // for MutableLiveData - DO NOT DELETE
+        //flashCards.value = flashCardRepository.getCardsInSet(flashCard.setId)
     }
 
     fun deleteCard(flashCard: FlashCard) = viewModelScope.launch(Dispatchers.IO) {
-        flashCardRepository.deleteCard(flashCard)
-        flashCards.postValue(flashCardRepository.getCardsInSet(flashCard.setId))
+        //flashCardRepository.deleteCard(flashCard)
+        flashCards.postValue(flashCardRepository.getCardsInSet(flashCard.setId)) // for MutableLiveData - DO NOT DELETE
     }
 
     /*fun deleteSet(setId: Int) = viewModelScope.launch(Dispatchers.IO) {

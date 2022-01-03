@@ -15,8 +15,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/flashcard_app_bar"
-            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+            app:menu="@menu/flashcard_app_bar" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <androidx.recyclerview.widget.RecyclerView
@@ -26,7 +25,8 @@
         tools:listitem="@layout/flashcard_item_row"
         android:paddingTop="?attr/actionBarSize"
         android:overScrollMode="never"
-        android:layout_marginBottom="35dp"/>
+        android:layout_marginBottom="35dp"
+        app:stackFromEnd="true"/>
 
     <FrameLayout
         android:id="@+id/persBottomSheet"
@@ -38,11 +38,12 @@
         android:focusable="true">
 
         <ImageView
+            android:id="@+id/bottomSheetTab"
             android:layout_width="70dp"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_remove_24"
             android:scaleType="centerCrop"
-            android:contentDescription="@string/close_bottom_sheet"
+            android:contentDescription="@string/bottom_sheet_tab"
             android:layout_gravity="center|top"/>
 
         <RelativeLayout android:id="@+id/botLinearLayout"
@@ -55,7 +56,7 @@
             <!-- You don't need to add IDs to the TextInputEditTexts
             because you can get a reference to them through the TextInputLayouts-->
             <TextView
-                android:id="@+id/createTextView"
+                android:id="@+id/bottomSheetTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
@@ -70,7 +71,7 @@
                 android:id="@+id/termTextInput"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/createTextView"
+                android:layout_below="@id/bottomSheetTitle"
                 android:layout_marginBottom="10dp"
                 app:errorEnabled="true"
                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">

@@ -28,5 +28,4 @@
         android:contentDescription="@string/create_flashcard_set"
         android:layout_margin="16dp"
         />
-
 </RelativeLayout>

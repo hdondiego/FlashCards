@@ -1,8 +1,7 @@
 package com.hdondiego.flashcards.data
 
-import androidx.lifecycle.LiveData
 import androidx.room.*
-import com.hdondiego.flashcards.data.FlashCard
+import com.hdondiego.flashcards.models.FlashCard
 
 @Dao
 interface FlashCardDao {
@@ -19,7 +18,7 @@ interface FlashCardDao {
     fun getCardsInSet(setId: Int) : LiveData<List<FlashCard>>*/
 
     @Query("SELECT * FROM FlashCard WHERE set_id=:setId")
-    fun getCardsInSet(setId: Int) : List<FlashCard>
+    fun getCardsInSet(setId: Int) : List<FlashCard>//List<FlashCard>
 
     /*@Query("UPDATE FlashCard SET term=:newTerm WHERE card_id = :cardId")
     fun updateCard(cardId: Int, newTerm: String)*/

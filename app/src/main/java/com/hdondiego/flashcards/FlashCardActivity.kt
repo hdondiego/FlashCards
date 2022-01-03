@@ -6,16 +6,11 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.LinearLayout
-import android.widget.RelativeLayout
-import android.widget.Toast
-import androidx.appcompat.app.ActionBar
+import android.widget.*
 import androidx.appcompat.view.menu.ActionMenuItemView
-import androidx.appcompat.widget.Toolbar
+import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,15 +19,10 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.textfield.TextInputLayout
-import com.hdondiego.flashcards.MainActivity.Companion.TERM_DEF_REQUEST
 import com.hdondiego.flashcards.adapters.FlashCardListAdapter
-import com.hdondiego.flashcards.data.FlashCard
+import com.hdondiego.flashcards.models.FlashCard
 import com.hdondiego.flashcards.data.FlashCardRepository
-import com.hdondiego.flashcards.data.FlashCardSetRepository
 import com.hdondiego.flashcards.data.FlashCardsRoomDatabase
-import com.hdondiego.flashcards.fragments.BottomSheetFragment
-import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModel
-import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModelFactory
 import com.hdondiego.flashcards.viewmodels.FlashCardViewModel
 import com.hdondiego.flashcards.viewmodels.FlashCardViewModelFactory
 import kotlinx.android.synthetic.main.activity_flashcard.*
@@ -84,6 +74,8 @@ class FlashCardActivity : AppCompatActivity() {
     private lateinit var btnSave: Button
     private lateinit var btnQuiz: ActionMenuItemView
 
+    private lateinit var bottomSheet: FrameLayout
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_flashcard)
@@ -128,6 +120,8 @@ class FlashCardActivity : AppCompatActivity() {
                     }
                 }*/
                 if (newState == BottomSheetBehavior.STATE_COLLAPSED){
+                    val titleTextView: TextView = bottomSheet.findViewById(R.id.bottomSheetTitle)
+                    titleTextView.text = resources.getString(R.string.create_flashcard)
                     termTextInput.editText!!.text = Editable.Factory.getInstance().newEditable("")
                     defTextInput.editText!!.text = Editable.Factory.getInstance().newEditable("")
 
@@ -143,6 +137,15 @@ class FlashCardActivity : AppCompatActivity() {
             }
 
         })
+
+        bottomSheet = findViewById(R.id.persBottomSheet)
+        bottomSheet.setOnClickListener {
+            if (mBottomSheetBehavior.state == BottomSheetBehavior.STATE_EXPANDED){
+                mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
+            } else if (mBottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED){
+                mBottomSheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
+            }
+        }
 
         // need this
         recyclerView = findViewById(R.id.recyclerView)
@@ -182,6 +185,7 @@ class FlashCardActivity : AppCompatActivity() {
         flashCardViewModel.flashCards.observe(this, Observer { cards ->
             cards?.let { flashCardListAdapter.setFlashCards(it) }
         })
+
         //var cardPosition: Int = flashCardListAdapter.itemCount
 
         btnCancel = findViewById(R.id.btnCancel)
@@ -265,7 +269,10 @@ class FlashCardActivity : AppCompatActivity() {
                 bottomSheetDialog.setContentView(bottomSheetView)
                 bottomSheetDialog.show()*/
 
+                val titleTextView: TextView = bottomSheet.findViewById(R.id.bottomSheetTitle)
+                //titleTextView.text = resources.getString(R.string.edit_flashcard)
                 if (mBottomSheetBehavior.state == BottomSheetBehavior.STATE_COLLAPSED){
+                    titleTextView.text = resources.getString(R.string.edit_flashcard)
                     val flashCard = flashCardViewModel.flashCards.value!!.get(position)
                     termTextInput.editText!!.text = Editable.Factory.getInstance().newEditable(flashCard.term)
                     defTextInput.editText!!.text = Editable.Factory.getInstance().newEditable(flashCard.def)
@@ -274,6 +281,7 @@ class FlashCardActivity : AppCompatActivity() {
                     mBottomSheetBehavior.state = BottomSheetBehavior.STATE_COLLAPSED
                     CoroutineScope(Dispatchers.Main).launch {
                         delay(450)
+                        titleTextView.text = resources.getString(R.string.edit_flashcard)
                         val flashCard = flashCardViewModel.flashCards.value!!.get(position)
                         termTextInput.editText!!.text = Editable.Factory.getInstance().newEditable(flashCard.term)
                         defTextInput.editText!!.text = Editable.Factory.getInstance().newEditable(flashCard.def)

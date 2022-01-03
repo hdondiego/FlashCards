@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/set_name_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="100dp">
+
+    <ImageView
+        android:id="@+id/thirdCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/flashcardset_one"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:outlineProvider="paddedBounds"
+        android:fadingEdge="vertical|horizontal"
+        android:background="@drawable/test2"
+        android:elevation="5dp"/>
+    <ImageView
+        android:id="@+id/secondCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/flashcardset_one"
+        android:layout_marginTop="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:outlineProvider="paddedBounds"
+        android:fadingEdge="vertical|horizontal"
+        android:background="@drawable/test2"
+        android:elevation="5dp"/>
+    <ImageView
+        android:id="@+id/firstCard"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:src="@drawable/flashcardset_one"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:outlineProvider="paddedBounds"
+        android:fadingEdge="vertical|horizontal"
+        android:background="@drawable/test2"
+        android:elevation="5dp"/>
+
+    <TextView
+        android:id="@+id/flashcardset_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="20dp"
+        android:elevation="5dp"
+        tools:text="Spanish"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"/>
+    <TextView
+        android:id="@+id/flashcardset_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginStart="20dp"
+        android:elevation="5dp"
+        tools:text="9 Cards"
+        android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle2"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="100dp"
+        android:elevation="5dp"
+        android:text="Date Created:"/>
+    <TextView
+        android:id="@+id/flashcardset_creation"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="26dp"
+        android:layout_marginStart="190dp"
+        android:elevation="5dp"
+        tools:text="1039457237494"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginStart="100dp"
+        android:elevation="5dp"
+        android:text="Last Viewed:"/>
+    <TextView
+        android:id="@+id/flashcardset_lastviewed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="44dp"
+        android:layout_marginStart="190dp"
+        android:elevation="5dp"
+        android:text="0234595453094"/>
+
+
+</FrameLayout>

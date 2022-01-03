@@ -9,6 +9,86 @@
         <!--<item name="android:textColor">@android:color/white</item>-->
     </style>
 
+    <style name="MatchBGAppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#FAFAFA</item>
+        <item name="colorPrimaryDark">@color/darkGray</item>
+        <item name="colorAccent">@color/grayAccent</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
+    <style name="Study1" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#BD1C00</item>
+        <item name="colorPrimaryDark">#8A1500</item>
+        <item name="colorAccent">#D65740</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
+    <style name="Study2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#E00101</item>
+        <item name="colorPrimaryDark">#AD0000</item>
+        <item name="colorAccent">#E64545</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
+    <style name="Study3" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#E00101</item>
+        <item name="colorPrimaryDark">#AD0000</item>
+        <item name="colorAccent">#E64545</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
+    <style name="Study4" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#B14AFF</item>
+        <item name="colorPrimaryDark">#600F9E</item>
+        <item name="colorAccent">#D8EB2D</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
+    <style name="Study5" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#982DEB</item>
+        <item name="colorPrimaryDark">#600F9E</item>
+        <item name="colorAccent">#D8EB2D</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
+    <style name="Study6" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#B14AFF</item>
+        <item name="colorPrimaryDark">#982DEB</item>
+        <item name="colorAccent">#8F9E00</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
+    <style name="Study7" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#8BFF42</item>
+        <item name="colorPrimaryDark">#40940C</item>
+        <item name="colorAccent">#DB24E0</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
+    <style name="Study8" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#6CE024</item>
+        <item name="colorPrimaryDark">#40940C</item>
+        <item name="colorAccent">#DB24E0</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
+    <style name="Study9" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">#8BFF42</item>
+        <item name="colorPrimaryDark">#6CE024</item>
+        <item name="colorAccent">#900094</item>
+        <!--<item name="android:textColor">@android:color/white</item>-->
+    </style>
+
     <!-- Dark Theme-->
     <style name="Dark_NoActionBar" parent="Theme.MaterialComponents.NoActionBar"/>
 

@@ -1,6 +1,6 @@
 package com.hdondiego.flashcards.data
 
-import androidx.lifecycle.LiveData
+import com.hdondiego.flashcards.models.FlashCard
 
 class FlashCardRepository(private val flashCardDao: FlashCardDao) {
     //val allFlashCards = flashCardDao.getAllCardsInSet()
@@ -12,7 +12,7 @@ class FlashCardRepository(private val flashCardDao: FlashCardDao) {
         return flashCardDao.getCardsInSet(setId)
     }*/
 
-    suspend fun getCardsInSet(setId: Int) : List<FlashCard>{
+    suspend fun getCardsInSet(setId: Int) : List<FlashCard> {
         //allFlashCards = flashCardDao.getAllCardsInSet(setId)
         return flashCardDao.getCardsInSet(setId)
     }

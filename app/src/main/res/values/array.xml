@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="card_amount">
+        <item>%1$s Card</item>
+        <item>%1$s Cards</item>
+    </string-array>
+    <string-array name="sort">
+        <item>Alphabetical (A-Z)</item>
+        <item>Alphabetical (Z-A)</item>
+        <item>Date Created (Newest)</item>
+        <item>Date Created (Oldest)</item>
+        <item>Recently Viewed</item>
+        <item>Idle Card Sets</item>
+    </string-array>
+</resources>

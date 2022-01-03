@@ -8,4 +8,10 @@
     <color name="colorWhite">#FFFFFFFF</color>
     <color name="colorSave">#02C200</color>
     <color name="colorCancel">#C22700</color>
+    <color name="darkGray">#7A7A7A</color>
+    <color name="grayAccent">#3B3B3B</color>
+    <color name="mildGray">#BABABA</color>
+    <color name="studyColorPrimary">#B14AFF</color>
+    <color name="studyColorPrimaryDark">#600F9E</color>
+    <color name="studyColorAccent">#D8EB2D</color>
 </resources>

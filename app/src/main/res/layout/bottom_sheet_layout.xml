@@ -12,7 +12,7 @@
     <!-- You don't need to add IDs to the TextInputEditTexts
     because you can get a reference to them through the TextInputLayouts-->
     <TextView
-        android:id="@+id/createTextView"
+        android:id="@+id/bottomSheetTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -29,7 +29,7 @@
         android:id="@+id/textInputTerm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/createTextView"
+        android:layout_below="@id/bottomSheetTitle"
         android:layout_marginBottom="10dp"
         app:errorEnabled="true"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">

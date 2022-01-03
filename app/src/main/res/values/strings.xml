@@ -11,7 +11,9 @@
     <string name="save">Save</string>
     <string name="create_flashcard_set">Create Flashcard Set</string>
     <string name="rename_flashcard_set">Rename Flashcard Set</string>
-    <string name="create_flashcard">Create a Flashcard</string>
+    <string name="create_flashcard">Create Flashcard</string>
+    <string name="edit_flashcard">Edit Flashcard</string>
+    <string name="filter">Filter</string>
 
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -22,5 +24,5 @@
     <string name="permanently_delete">All Flashcards in this set will be permanently deleted.</string>
     <string name="deleteWarningMessage">All Flashcards in %1$s will be permanently deleted.</string>
     <string name="add_flashcard">Add Flashcard</string>
-    <string name="close_bottom_sheet">Close Bottom Sheet</string>
+    <string name="bottom_sheet_tab">Bottom Sheet Tab</string>
 </resources>

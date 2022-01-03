@@ -1,4 +1,4 @@
-package com.hdondiego.flashcards.data
+package com.hdondiego.flashcards.models
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

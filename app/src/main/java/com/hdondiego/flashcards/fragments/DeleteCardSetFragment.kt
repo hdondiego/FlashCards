@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.ViewModelProvider
 import com.hdondiego.flashcards.R
-import com.hdondiego.flashcards.data.FlashCardSet
+import com.hdondiego.flashcards.models.FlashCardSet
 import com.hdondiego.flashcards.data.FlashCardSetRepository
 import com.hdondiego.flashcards.data.FlashCardsRoomDatabase
 import com.hdondiego.flashcards.viewmodels.FlashCardSetViewModel
