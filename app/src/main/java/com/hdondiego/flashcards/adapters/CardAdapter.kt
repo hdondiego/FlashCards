@@ -55,74 +55,34 @@ class CardAdapter(): RecyclerView.Adapter<CardAdapter.CardViewHolder>(){ // priv
 
         holder.frameLayout.setOnClickListener {
             Log.d(TAG, "Card Flip triggered on position ${position}")
-            if (flashCards[position].front) { // quizItems[position].front
-                val termFlip: ObjectAnimator = ObjectAnimator.ofFloat(holder.frontCard, "rotationY", 0f, 180f) // 0 90 0f 180f linearLayout frontCardView
-                termFlip.duration = 1000
-                //termFlip.interpolator = AccelerateDecelerateInterpolator()
+            if (flashCards[position].front) {
+                // flip from Term/Front to Definition/Back
+                val frontToBackStart: Animator = AnimatorInflater.loadAnimator(context, R.animator.front_to_back_start);
+                frontToBackStart.setTarget(holder.frontCard);
 
-                val termFadeOut = ObjectAnimator.ofFloat(holder.frontCard, "alpha", 1.0f, 0.0f) // linearLayout frontCardView
-                termFadeOut.startDelay = 500
-                termFadeOut.duration = 0
+                val frontToBackEnd: Animator = AnimatorInflater.loadAnimator(context, R.animator.front_to_back_end)
+                frontToBackEnd.setTarget(holder.backCard)
 
-                val animSet1: AnimatorSet = AnimatorSet()
-                animSet1.playTogether(termFadeOut, termFlip)
+                val frontToBackAnimation: AnimatorSet = AnimatorSet()
+                frontToBackAnimation.playTogether(frontToBackStart, frontToBackEnd)
 
-                val defFadeOut: ObjectAnimator = ObjectAnimator.ofFloat(holder.backCard, "alpha", 1.0f, 0.0f) // backCardView
-                defFadeOut.duration = 0
+                flashCards[position].front = false
 
-                val defFlip: ObjectAnimator =
-                    ObjectAnimator.ofFloat(holder.backCard, "rotationY", -180f, 0f) // linearLayout backCardView
-                defFlip.duration = 1000
-                //defFlip.interpolator = DecelerateInterpolator()
-
-                val defFadeIn: ObjectAnimator =
-                    ObjectAnimator.ofFloat(holder.backCard, "alpha", 0.0f, 1.0f) // linearLayout backCardView
-                defFadeIn.startDelay = 500
-                defFadeIn.duration = 0
-
-                val animSet2: AnimatorSet = AnimatorSet()
-                animSet2.playTogether(defFadeOut, defFlip, defFadeIn)
-
-                val animSet3: AnimatorSet = AnimatorSet()
-                animSet3.playTogether(animSet1, animSet2)
-
-                flashCards[position].front = false // quizItems[position].front = false
-                //mListener.onItemUpdated(flashCards[position], position)
-                //notifyItemChanged(position)
-                animSet3.start()
+                frontToBackAnimation.start()
             } else {
-                val defFlip: ObjectAnimator = ObjectAnimator.ofFloat(holder.backCard, "rotationY", 0f, -180f) // linearLayout backCardView
-                defFlip.duration = 1000
-                //defFlip.interpolator = AccelerateDecelerateInterpolator()
+                // flip from Definition/Back to Term/Front
+                val backToFrontStart: Animator = AnimatorInflater.loadAnimator(context, R.animator.back_to_front_start)
+                backToFrontStart.setTarget(holder.backCard)
 
-                val defFadeOut: ObjectAnimator = ObjectAnimator.ofFloat(holder.backCard, "alpha", 1.0f, 0f) // linearLayout backCardView
-                defFadeOut.startDelay = 500
-                defFadeOut.duration = 0
+                val backToFrontEnd: Animator = AnimatorInflater.loadAnimator(context, R.animator.back_to_front_end)
+                backToFrontEnd.setTarget(holder.frontCard)
 
-                val animSet1: AnimatorSet = AnimatorSet()
-                animSet1.playTogether(defFlip, defFadeOut)
+                val backToFrontAnimation: AnimatorSet = AnimatorSet()
+                backToFrontAnimation.playTogether(backToFrontStart, backToFrontEnd)
 
-                val termFadeOut: ObjectAnimator = ObjectAnimator.ofFloat(holder.frontCard, "alpha", 1.0f, 0.0f) // frontCardView
-                termFadeOut.duration = 0
+                flashCards[position].front = true
 
-                val termFlip: ObjectAnimator = ObjectAnimator.ofFloat(holder.frontCard, "rotationY", 180f, 0f) // 0 90 0f 180f linearLayout frontCardView
-                termFlip.duration = 1000
-                //termFlip.interpolator = DecelerateInterpolator()
-
-                val termFadeIn = ObjectAnimator.ofFloat(holder.frontCard, "alpha", 0.0f, 1.0f) // linearLayout frontCardView
-                termFadeIn.startDelay = 500
-                termFadeIn.duration = 0
-
-                val animSet2: AnimatorSet = AnimatorSet()
-                animSet2.playTogether(termFadeOut, termFlip, termFadeIn)
-
-                val animSet3: AnimatorSet = AnimatorSet()
-                animSet3.playTogether(animSet1, animSet2)
-
-                flashCards[position].front = true // quizItems[position].front = true
-                //mListener.onItemUpdated(flashCards[position], position)
-                //notifyItemChanged(position)
-                animSet3.start()
+                backToFrontAnimation.start()
             }
             Log.d(TAG,
                 "flashCards: \n${flashCards.forEachIndexed { index, flashCard -> Log.d(TAG, "pos ${index}: ${flashCard.front}") } }"
